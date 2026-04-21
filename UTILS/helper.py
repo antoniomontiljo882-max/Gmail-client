@@ -89,9 +89,21 @@ def extract_domain(data):
 
 
 def write_txt(path, text):
-    """Appends a line of text to a file."""
+    """Appends a domain to a file if valid and not already present."""
+    normalized = text.strip().lower()
+    match = DOMAIN_PATTERN.fullmatch(normalized)
+
+    if not match:
+        return "invalid"
+
+    existing_domains = set(load_domains(path))
+    if normalized in existing_domains:
+        return "exists"
+
     with open(path, "a", encoding="utf-8") as file:
-        file.write(text + "\n")
+        file.write(normalized + "\n")
+
+    return "added"
 
 
 def decode_imap_utf7(s):

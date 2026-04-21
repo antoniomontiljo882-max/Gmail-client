@@ -29,3 +29,4 @@ lieferando.de
 elusa.de
 notifications.lumosity.com
 e.dji.com
+cursor.sh

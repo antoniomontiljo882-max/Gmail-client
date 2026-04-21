@@ -1,9 +1,17 @@
 # Gmail Automation Tool
 
-CLI tool for managing a Gmail inbox via IMAP.
+Personal CLI project to reduce spam management effort in a real Gmail inbox.
 
-The project focuses on handling large inboxes with UID-based IMAP operations,
-domain statistics, and bulk moves to spam.
+This was built as a learning project from scratch while learning IMAP basics,
+email headers, and UID-based mailbox operations.
+
+## Project Goal
+
+The goal was to solve one concrete personal problem:
+too many recurring spam/promotional emails from the same domains.
+
+This project is intentionally scoped for single-user local usage, not as a
+general multi-user production product.
 
 ## Features
 
@@ -13,6 +21,8 @@ domain statistics, and bulk moves to spam.
 - Shows domain frequency statistics
 - Moves emails from configured domains to spam in bulk
 - Keeps local credentials out of Git
+- Avoids duplicate domain entries in the local blocklist
+- Handles invalid folder selection input more safely
 
 ## Requirements
 
@@ -44,6 +54,12 @@ You can copy the structure from `.env.example`.
 python main.py
 ```
 
+## Impact (Personal Workflow)
+
+- Reduced repetitive manual inbox cleanup
+- Faster handling of recurring sender domains
+- Reusable local blocklist for recurring spam sources
+
 ## Screenshots
 
 ![Gmail Automation Tool screenshot](screenshots/image.png)
@@ -66,12 +82,19 @@ python main.py
 - Uses mailbox metadata for inbox counts instead of searching every UID
 - Expunges once after bulk moves instead of after every sender batch
 
+## What I Learned
+
+- How IMAP folders, search, and UID-based operations work
+- Why selective header fetching matters for performance
+- How to structure a CLI project into `services`, `UI`, and `UTILS`
+- How environment variables help keep credentials out of source control
+
 ## Notes
 
 This tool is intended for local use with real Gmail data. Do not commit `.env`
 or app passwords.
 
-## Possible Next Steps
+## If I Continue This Project
 
 - Add rule-based automation
 - Add structured logging

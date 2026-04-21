@@ -68,8 +68,19 @@ def main():
             folders = show_folders(email_objekt)
 
             print()
-            option = int(input("Select folder → "))
+            raw_option = input("Select folder → ").strip()
             print()
+
+            if not raw_option.isdigit():
+                print(red("Invalid input. Please type a number."))
+                input(bold(grey("RETURN (Enter)\n")))
+                continue
+
+            option = int(raw_option)
+            if option < 1 or option > len(folders):
+                print(red("Invalid folder number."))
+                input(bold(grey("RETURN (Enter)\n")))
+                continue
 
             selected = folders[option - 1]
             show_folder_content(email_objekt, selected)
@@ -130,10 +141,15 @@ def main():
                     print(red("Empty input. Try again."))
                     continue
 
-                write_txt("txt_files/domains_adresses.txt", domain)
+                status = write_txt("txt_files/domains_adresses.txt", domain)
 
                 print()
-                print(green(f"Added {white(domain)}"))
+                if status == "added":
+                    print(green(f"Added {white(domain.lower())}"))
+                elif status == "exists":
+                    print(yellow(f"Already exists: {white(domain.lower())}"))
+                else:
+                    print(red("Invalid domain format."))
 
             print()
             input(bold(grey("RETURN (Enter)\n")))
@@ -158,10 +174,15 @@ def main():
                     print(red("Empty input. Try again."))
                     continue
 
-                write_txt("txt_files/domains_adresses.txt", domain)
+                status = write_txt("txt_files/domains_adresses.txt", domain)
 
                 print()
-                print(green(f"Added {white(domain)}"))
+                if status == "added":
+                    print(green(f"Added {white(domain.lower())}"))
+                elif status == "exists":
+                    print(yellow(f"Already exists: {white(domain.lower())}"))
+                else:
+                    print(red("Invalid domain format."))
 
             print()
             input(bold(grey("RETURN (Enter)\n")))
