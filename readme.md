@@ -44,6 +44,12 @@ You can copy the structure from `.env.example`.
 python main.py
 ```
 
+## Screenshots
+
+![Gmail Automation Tool screenshot](screenshots/image.png)
+
+![Gmail Automation Tool screenshot](screenshots/image%20copy.png)
+
 ## Project Structure
 
 - `main.py` - CLI entry point and menu flow

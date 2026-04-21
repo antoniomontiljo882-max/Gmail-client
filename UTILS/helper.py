@@ -3,6 +3,13 @@ import time
 import email
 from email.header import decode_header
 import base64
+import re
+
+
+DOMAIN_PATTERN = re.compile(
+    r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?"
+    r"(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+"
+)
 
 
 def clear():
@@ -16,10 +23,10 @@ def load_domains(file_path):
 
     with open(file_path, "r", encoding="utf-8") as file:
         for line in file:
-            domain = line.strip()
+            match = DOMAIN_PATTERN.search(line)
 
-            if domain:
-                domains.append(domain)
+            if match:
+                domains.append(match.group(0).lower())
 
     return domains
 

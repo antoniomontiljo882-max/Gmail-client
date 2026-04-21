@@ -120,7 +120,24 @@ def main():
 
             print()
 
+            while True:
+                domain = input(yellow("\nType new domain-name or (q) to return:\n")).strip()
+
+                if domain.lower() == "q":
+                    break
+
+                if not domain:
+                    print(red("Empty input. Try again."))
+                    continue
+
+                write_txt("txt_files/domains_adresses.txt", domain)
+
+                print()
+                print(green(f"Added {white(domain)}"))
+
+            print()
             input(bold(grey("RETURN (Enter)\n")))
+
 
 
         elif choice == "4":
