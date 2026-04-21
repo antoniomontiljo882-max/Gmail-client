@@ -6,7 +6,7 @@ from UTILS.colors import (
 )
 
 from UTILS.helper import (
-    load_domains, build_uids,
+    load_domains,
     extract_domain, write_txt, clear, timer
 )
 
@@ -104,9 +104,12 @@ def main():
             print(bright_yellow("Analyzing domains...\n"))
 
             email_uids = get_email_uids(email_objekt)
-            uid_str = build_uids(email_uids)
 
-            fetch_mails = fetch_all_emails(email_objekt, uid_str)
+            fetch_mails = fetch_all_emails(
+                email_objekt,
+                email_uids,
+                "(BODY.PEEK[HEADER.FIELDS (FROM)])"
+            )
             data_set = build_email_dataset(fetch_mails)
 
             domains = extract_domain(data_set)
@@ -126,7 +129,7 @@ def main():
             print(yellow("Active domains..."))
             time.sleep(1)
 
-            show_existing_domains("txt_files\domains_adresses.txt")
+            show_existing_domains("txt_files/domains_adresses.txt")
 
             while True:
                 domain = input(yellow("\nType new domain-name or (q) to return:\n")).strip()
@@ -138,7 +141,7 @@ def main():
                     print(red("Empty input. Try again."))
                     continue
 
-                write_txt("txt_files\domains_adresses.txt", domain)
+                write_txt("txt_files/domains_adresses.txt", domain)
 
                 print()
                 print(green(f"Added {white(domain)}"))
@@ -166,4 +169,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-   

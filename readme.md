@@ -1,33 +1,27 @@
 # Gmail Automation Tool
 
-CLI tool to automate Gmail inbox management via IMAP.
+CLI tool for managing a Gmail inbox via IMAP.
 
-Processes large numbers of emails efficiently using UID-based operations.
+The project focuses on handling large inboxes with UID-based IMAP operations,
+domain statistics, and bulk moves to spam.
 
----
+## Features
 
-## What it does
+- Connects to Gmail over IMAP
+- Fetches email headers by UID
+- Extracts sender domains
+- Shows domain frequency statistics
+- Moves emails from configured domains to spam in bulk
+- Keeps local credentials out of Git
 
-* Fetches emails from Gmail via IMAP
-* Extracts sender domains
-* Shows domain statistics
-* Moves emails in bulk (e.g. to spam)
+## Requirements
 
----
+- Python 3.10+
+- Gmail account
+- IMAP enabled in Gmail
+- Google App Password
 
-## Why this project
-
-Built to solve a real problem: handling thousands of emails quickly.
-
-Key focus:
-
-* performance (UID instead of message IDs)
-* clean structure (services / utils / UI separation)
-* real data handling (not a toy project)
-
----
-
-## Run it
+## Setup
 
 ```bash
 git clone https://github.com/antoniomontiljo882-max/Gmail-client.git
@@ -35,48 +29,45 @@ cd Gmail-client
 pip install -r requirements.txt
 ```
 
-Create `.env`:
+Create a local `.env` file:
 
 ```env
 EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
+EMAIL_PASS=your_google_app_password
 ```
 
-Run:
+You can copy the structure from `.env.example`.
+
+## Run
 
 ```bash
 python main.py
 ```
 
----
+## Project Structure
 
-## Requirements
+- `main.py` - CLI entry point and menu flow
+- `services/` - IMAP operations
+- `UI/` - terminal display and email transformation
+- `UTILS/` - helper functions and terminal colors
+- `txt_files/domains_adresses.txt` - domains used for bulk actions
 
-* Gmail account
-* IMAP enabled
-* Google App Password (not normal password)
+## Performance Notes
 
----
-
-## Structure
-
-* `services/` → IMAP logic
-* `UTILS/` → helpers
-* `UI/` → CLI
-* `main.py` → entry point
-
----
+- Uses IMAP UIDs instead of sequence numbers for stable operations
+- Fetches email data in chunks to avoid oversized IMAP responses
+- Fetches only needed header fields where possible
+- Uses mailbox metadata for inbox counts instead of searching every UID
+- Expunges once after bulk moves instead of after every sender batch
 
 ## Notes
 
-* Designed for local use
-* Uses real Gmail data
-* Tested with large inboxes
+This tool is intended for local use with real Gmail data. Do not commit `.env`
+or app passwords.
 
----
+## Possible Next Steps
 
-## Next steps
-
-* rule-based automation
-* logging system
-* better UX
+- Add rule-based automation
+- Add structured logging
+- Add pagination for very large folder views
+- Add tests around domain extraction and IMAP response parsing

@@ -1,4 +1,3 @@
-from imapclient import imap_utf7
 import time
 
 from UTILS.colors import (
@@ -8,8 +7,8 @@ from UTILS.colors import (
     bg_magenta, bg_red, bright_blue, blue, magenta, green
 )
 
-from UTILS.helper import build_uids, decode_imap_utf7
-from services.imap_client import fetch_all_emails, get_email_uids
+from UTILS.helper import decode_imap_utf7
+from services.imap_client import fetch_all_emails, get_email_count, get_email_uids
 from UI.email_transformer import build_email_dataset
 
 
@@ -66,8 +65,11 @@ def show_folder_content(email_objekt, folder_name):
         print(red(f"\n{display_name}"), "contains no emails.")
         return
 
-    uid_string = build_uids(data)
-    raw = fetch_all_emails(email_objekt, uid_string, "(BODY.PEEK[HEADER])")
+    raw = fetch_all_emails(
+        email_objekt,
+        data,
+        "(BODY.PEEK[HEADER.FIELDS (FROM TO SUBJECT DATE MESSAGE-ID)])"
+    )
     dataset = build_email_dataset(raw)
 
     render_email_list(dataset, display_name)
@@ -160,7 +162,7 @@ def show_existing_domains(path):
 def render_main_menu(email_objekt, email):
     """Displays the main menu and returns the user's selected command."""
 
-    email_count = len(get_email_uids(email_objekt))
+    email_count = get_email_count(email_objekt)
 
     title = "GMAILGUARD"
     account_line = f"{email}"
